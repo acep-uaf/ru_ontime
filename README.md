@@ -6,7 +6,7 @@ Simple command line tool to sanity check time synchronization between an NTP ser
 
 Queries NTP server and gets offset from system clock. Queries meter time and gets the offset from system clock by sampling and averaging the samples with the lowest round-trip times. Offsets are compared to get the difference between the meter time and the NTP server time.
 
-![diagram](assets/Screenshot from 2025-07-17 13-07-26.png)
+![diagram](assets/diagram.png)
 
 ### Dependencies
 
