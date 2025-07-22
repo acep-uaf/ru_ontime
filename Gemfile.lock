@@ -1,0 +1,22 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colored (1.2)
+    digest-crc (0.7.0)
+      rake (>= 12.0.0, < 14.0.0)
+    net-ntp (2.1.3)
+    rake (13.3.0)
+    rmodbus (2.1.3)
+      digest-crc (~> 0.1)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  colored
+  net-ntp
+  rmodbus
+
+BUNDLED WITH
+   2.6.9
