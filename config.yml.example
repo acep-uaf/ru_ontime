@@ -1,0 +1,4 @@
+poll_cfg:
+  ntp_server: 
+  meter_ip:
+  time_regs_str:
