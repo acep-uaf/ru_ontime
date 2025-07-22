@@ -30,10 +30,20 @@ bundle
 ./firmwaregrab.rb meter_ip firmware_reg
 ```
 
+For repeated polling, use config.yml to store NTP server address, meter IP address, modbus register range
+```
+poll_cfg:
+  ntp_server: 'time.nist.gov'
+  meter_ip: '123.45.0.67'
+  time_regs_str: '1000..1007'
+```
+
 ## Version History
 
-* 0.1
-    * Initial Release
+* 0.1.2
+   * Added config.yml and handling in test_time.rb 
+* 0.1.1
+   * Initial Release
 
 ## Resources
 
