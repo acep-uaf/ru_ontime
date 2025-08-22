@@ -37,6 +37,7 @@ poll_cfg:
   meter_ip: '123.45.0.67'
   time_regs_str: '1000..1007'
 ```
+Multiple meters (of the same type) can be polled at once by providing a list: `'123.45.0.1, 123.45.0.2, ...'`
 
 ## Version History
 
