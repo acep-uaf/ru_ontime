@@ -41,7 +41,7 @@ Multiple meters (of the same type) can be polled at once by providing a list: `'
 
 ## Version History
 
-*0.1.3
+* 0.1.3
    * Added handling for polling multiple meters at once
 * 0.1.2
    * Added config.yml and handling in test_time.rb 
