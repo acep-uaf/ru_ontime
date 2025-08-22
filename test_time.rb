@@ -5,6 +5,7 @@
 require_relative 'ru_ontime'
 require 'yaml'
 require 'colored'
+require 'timeout'
 
 # usage: ./test_time.rb ntp_server meter_ip time_reg_range
 
@@ -14,8 +15,8 @@ cfg = {}
 # use config.yml if ARGV is empty
 if input_array.empty?
   if File.exist?('config.yml')
-    puts "Loading config.yml".green
     cfg = YAML.load_file('config.yml')['poll_cfg']
+    puts "Config load success".green
   else
     puts "No config.yml file found - please use arguments:".red
     puts "./test_time ntp_server meter_ip time_register_range".yellow
@@ -38,16 +39,42 @@ def unstr_range(range)
   end
 end
 
+# return array of ip addr strings
+
+def unstr_iparray(iparray)
+  if iparray.include?(',')
+    return iparray.split(',')
+  else
+    return Array(iparray)
+  end
+end
+
+ip_addr = unstr_iparray(cfg['meter_ip'])
+
 time_regs = unstr_range(cfg['time_regs_str'])
 
-ntp = NetTime.new(cfg['ntp_server'])
-ntp_offset = ntp.offset
+ntp_offset = nil
+
+begin
+  Timeout.timeout(5) do
+    ntp = NetTime.new(cfg['ntp_server'])
+    ntp_offset = ntp.offset
+  end
+rescue Timeout::Error
+  puts "NTP query to #{cfg['ntp_server']} timed out!".red
+  exit 1
+end
 
 # sample meter times and report average offset
-meter = MeterStatus.new(cfg['meter_ip'], time_regs)
-meter.take_samples
-meter_offset = meter.average_offsets
+# loop for all meters
 
-meter_vs_ntp = meter_offset - ntp_offset
+ip_addr.each do |meter_ip|
+  meter = MeterStatus.new(meter_ip, time_regs)
+  meter.take_samples
+  meter_offset = meter.average_offsets
 
-puts "Meter is #{(meter_vs_ntp * 1000).round(3)} ms off from #{cfg['ntp_server']}"
+  meter_vs_ntp = meter_offset - ntp_offset
+
+  puts "Meter at #{cfg['meter_ip']} is #{(meter_vs_ntp * 1000).round(3)} ms off from #{cfg['ntp_server']}"
+end
+

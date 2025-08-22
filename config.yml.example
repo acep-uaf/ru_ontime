@@ -1,3 +1,6 @@
+# meter_ip will accept a list of ips '10.1.2.3, 10.1.2.4, ...' as well as a single address
+# all arguments must be strings
+
 poll_cfg:
   ntp_server: 
   meter_ip:
